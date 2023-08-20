@@ -2,7 +2,7 @@ const Users = require("../models/userModel");
 const bcrytp = require("bcrypt");
 module.exports.register = async (req, res, next) => {
     try{
-        console.log(req.body)
+       
   const { username, email, password } = req.body;
   const userNameCheck = await Users.findOne({ username });
   if (userNameCheck)
@@ -23,3 +23,25 @@ catch(exception){
     next(exception)
 }
 };
+
+
+
+module.exports.login = async (req, res, next) => {
+  try{
+     
+const { username, password } = req.body;
+const user = await Users.findOne({ username });
+if (!user)
+  return res.json({ message: "Did not find your account! Please Sign Up before you login.", status: false });
+const vaidatePassword = await bcrytp.compare(password, user.password)
+if(!vaidatePassword){
+  return res.json({ message: "Incorrect Password Provided!", status: false });
+}
+delete user.password;
+return res.json({ status: true, user });
+}
+catch(exception){
+  next(exception)
+}
+};
+

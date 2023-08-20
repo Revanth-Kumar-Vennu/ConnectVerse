@@ -1,24 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import styled from "styled-components";
 import background from "../assets/background.mp4";
-import {ToastContainer, toast} from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 import { registerRoute } from "../utils/APIRoutes";
 function Register() {
-
-  const navigate = useNavigate()
-    const toastSettings ={
-        position:"bottom-right",
-        autoClose: 10000,
-        draggable: true,
-        theme: "light"
-
+  const navigate = useNavigate();
+  const toastSettings = {
+    position: "bottom-right",
+    autoClose: 10000,
+    draggable: true,
+    theme: "light",
+  };
+  useEffect(() => {
+    if (localStorage.getItem("chat-app-user")) {
+      navigate("/");
     }
+  });
 
- 
   const [values, setValues] = useState({
     username: "",
     email: "",
@@ -26,44 +28,48 @@ function Register() {
     confirmPassword: "",
   });
 
-  const handleValidation = () =>{
-const {username,password,confirmPassword} = values;
-if(password!==confirmPassword){
-toast.error("Passwords did not match! Please check your password",toastSettings)
-return false;
-}
-else if(username.length<=3){
-    toast.error("Username is too short! Try a lengthier one with atleast 4 characters",toastSettings)
-    return false;
-}
-else if(password.length<=8 ){
-    toast.error("Password is too weak! Try a lengthier one with atleast 8 characters",toastSettings)
-    return false;
-}
-return true;
+  const handleValidation = () => {
+    const { username, password, confirmPassword } = values;
+    if (password !== confirmPassword) {
+      toast.error(
+        "Passwords did not match! Please check your password",
+        toastSettings
+      );
+      return false;
+    } else if (username.length <= 3) {
+      toast.error(
+        "Username is too short! Try a lengthier one with atleast 4 characters",
+        toastSettings
+      );
+      return false;
+    } else if (password.length <= 8) {
+      toast.error(
+        "Password is too weak! Try a lengthier one with atleast 8 characters",
+        toastSettings
+      );
+      return false;
+    }
+    return true;
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-   if(handleValidation()){
-    const {username,email,password} = values;
-    const {data} = await axios.post(registerRoute,{
+    if (handleValidation()) {
+      const { username, email, password } = values;
+      const { data } = await axios.post(registerRoute, {
         username,
         email,
         password,
-    });
-    if(data.status === false){
-        toast.error(data.message, toastSettings)
+      });
+      if (data.status === false) {
+        toast.error(data.message, toastSettings);
+      }
+      if (data.status === true) {
+        localStorage.setItem("chat-app-user", JSON.stringify(data.user));
 
+        toast.success("User added to ConnectVerse!", toastSettings);
+        navigate("/");
+      }
     }
-    if(data.status === true){
-      localStorage.setItem("chat-app-user",JSON.stringify(data.user))
-      
-        toast.success("User added to ConnectVerse!", toastSettings)
-        navigate("/")
-    }
-
-
-   };
   };
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
