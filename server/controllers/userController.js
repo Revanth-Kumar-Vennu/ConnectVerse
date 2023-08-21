@@ -64,3 +64,18 @@ module.exports.createAvatar = async (req, res, next) => {
     next(exception);
   }
 };
+
+module.exports.getAllUsers = async (req, res, next) => {
+  try {
+   
+    const users = await Users.find({_id: {$ne: req.params._id}}).select([
+      "email",
+      "username",
+      "avatar",
+      "_id"
+    ]);
+    return res.json(users);
+  } catch (exception) {
+    next(exception);
+  }
+};
