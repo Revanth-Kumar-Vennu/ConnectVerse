@@ -7,6 +7,7 @@ import Contacts from "../components/contacts";
 function Chat() {
   const [contacts, setContacts] = useState([]);
   const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentSelected,setCurrentSelected] = useState(undefined)
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
@@ -39,12 +40,16 @@ function Chat() {
     };
 
     fetchContacts();
+    // console.log(contacts)
   }, [currentUser, navigate]);
 
+  const handleChatChange = (chat) => {
+    setCurrentSelected(chat);
+  };
   return (
     <Container>
       <div className="container">
-      <Contacts contacts={contacts} currentUser={currentUser}></Contacts>
+      <Contacts contacts={contacts} currentUser={currentUser} changeChat={handleChatChange}></Contacts>
       </div>
     </Container>
   );
@@ -60,8 +65,8 @@ const Container = styled.div`
   align-items: center;
   background-color: white;
   .container {
-    height: 85vh;
-    width: 85vw;
+    height: 100vh;
+    width: 100vw;
     background-color: white;
     display: grid;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Box shadow for elevation */

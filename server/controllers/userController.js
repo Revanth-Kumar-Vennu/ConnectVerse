@@ -57,7 +57,7 @@ module.exports.createAvatar = async (req, res, next) => {
           avatar: avatar,
         },
       },
-      { new: true } 
+      { new: true }
     );
     return res.json({ isSet: userData.isAvatarSet, image: userData.avatar });
   } catch (exception) {
@@ -67,12 +67,11 @@ module.exports.createAvatar = async (req, res, next) => {
 
 module.exports.getAllUsers = async (req, res, next) => {
   try {
-   
-    const users = await Users.find({_id: {$ne: req.params._id}}).select([
+    const users = await Users.find({ _id: { $ne: req.params.id } }).select([
       "email",
       "username",
       "avatar",
-      "_id"
+      "_id",
     ]);
     return res.json(users);
   } catch (exception) {
