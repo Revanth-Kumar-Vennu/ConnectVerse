@@ -10,10 +10,13 @@ function Chat() {
   const [currentUser, setCurrentUser] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
   const navigate = useNavigate();
+
   useEffect(() => {
+    debugger
     const fetchData = async () => {
       try {
         const storedUser = localStorage.getItem("chat-app-user");
+        console.log(storedUser)
         if (!storedUser) {
           navigate("/login");
         } else {
@@ -27,11 +30,13 @@ function Chat() {
     };
 
     fetchData();
-  }, [navigate]);
+  },[]);
+
   useEffect(() => {
     const fetchContacts = async () => {
       try {
         if (currentUser && currentUser.isAvatarSet) {
+          console.log(currentUser)
           const response = await axios.get(
             `${allUsersRoute}/${currentUser._id}`
           );
@@ -48,7 +53,7 @@ function Chat() {
 
     fetchContacts();
     // console.log(contacts)
-  }, [currentUser, navigate]);
+  },[currentUser]);
 
   console.log(currentUser)
   const handleChatChange = (chat) => {
@@ -62,7 +67,13 @@ function Chat() {
           currentUser={currentUser}
           changeChat={handleChatChange}
         ></Contacts>
+        {/* <Welcome currentUser={currentUser}/> */}
+        {currentUser ? (
         <Welcome currentUser={currentUser}/>
+      ) : (
+        <p>Loading...</p>
+      )}
+
       </div>
     </Container>
   );
