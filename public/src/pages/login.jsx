@@ -53,8 +53,8 @@ function Login() {
       if (data.status === true) {
         localStorage.setItem("chat-app-user", JSON.stringify(data.user));
 
-        toast.success("User added to ConnectVerse!", toastSettings);
-        navigate("/");
+        // toast.success("User added to ConnectVerse!", toastSettings);
+        navigate("/chat");
       }
     }
   };

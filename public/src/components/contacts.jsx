@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/logo.png";
+
 export default function Contacts({ contacts, currentUser, changeChat }) {
     const [currentUserName, setCurrentUserName] = useState(undefined);
     const [currentUserAvatar, setCurrentUserAvatar] = useState(undefined);
