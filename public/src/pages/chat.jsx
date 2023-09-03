@@ -74,7 +74,7 @@ function Chat() {
           <Welcome currentUser={currentUser} />
         ) : (
           
-          <ChatContainer currentSelected={currentSelected} />
+          <ChatContainer currentSelected={currentSelected} currentUser={currentUser}/>
         )}
       </div>
     </Container>

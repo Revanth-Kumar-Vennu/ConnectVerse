@@ -4,17 +4,25 @@ import Picker from 'emoji-picker-react'
 import {IoMdSend} from 'react-icons/io'
 import {BsEmojiSmileFill} from 'react-icons/bs'
 
-export default function ChatInput() {
+export default function ChatInput({handleSendMessage}) {
   const [showEmojiPicker, setShowEmojiPicker]=useState(false)
   const [message,setMessage]=useState("")
   const handleEmojiPicker = () =>{
     setShowEmojiPicker(!showEmojiPicker)
   }
-  const handleEmojiClick = (event,emojiObject) =>{
+  const handleEmojiClick = (emojiObject, event) =>{
     console.log(emojiObject)
    let msg = message;
    msg += emojiObject.emoji
    setMessage(msg)
+  }
+  const sendChat = (event) =>{
+    event.preventDefault();
+    if(message.length>0){
+      handleSendMessage(message);
+      setMessage("");
+      
+    }
   }
   return (
     <Container>
@@ -26,8 +34,8 @@ export default function ChatInput() {
           }
         </div>
       </div>
-      <form className="input-container">
-        <input type="text" placeholder='Type your message here.....' value={message} ></input>
+      <form className="input-container" onSubmit={(event)=> sendChat(event)}>
+        <input type="text" placeholder='Type your message here.....' value={message} onChange={(event) => setMessage(event.target.value)}></input>
         <button className='submit'><IoMdSend/></button>
       </form>
     </Container>
@@ -61,6 +69,19 @@ svg{
 .EmojiPickerReact{
   position: absolute;
   top:35%;
+  .emoji-categories{
+    button{
+      filter: contrast(0);
+    }
+  }
+  .emoji-search{
+    background-color: transparent;
+  }
+  .emoji-scroll-wrapper::-webkit-scrollbar{
+    background-color: white;
+    width: 5px;
+
+  }
  
 }
 }
