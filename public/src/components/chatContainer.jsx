@@ -88,6 +88,8 @@ const Container = styled.div`
   padding-top: 1rem;
   display: grid;
   grid-template-rows: 10% 78% 12%;
+  gap: 0.1rem;
+  overflow: hidden;
   .header {
     display: flex;
     justify-content: space-between;
@@ -136,4 +138,10 @@ const Container = styled.div`
       }
     }
   }
+  @media screen and (min-width: 720px) and (max-width: 1080px) {
+      grid-template-columns: 15% 70% 15%;
+    }
+    @media screen and (min-width: 360px) and (max-width: 480px) {
+      grid-template-columns: 45% 55%;
+    }
 `;
