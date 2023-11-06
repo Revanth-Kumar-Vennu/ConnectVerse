@@ -1,5 +1,4 @@
 # ConnectVerse
-Sure, I can help you improve the installation guide in a more structured and detailed manner. Here's a revised version:
 
 # Installation Guide for Chat App (React & Node.js)
 
